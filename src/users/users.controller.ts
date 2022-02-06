@@ -7,19 +7,22 @@ import {
   Post,
   Put,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
-import { PositiveIntPipe } from 'src/positiveInt.pipe';
+import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
 import { UsersService } from './users.service';
 
 @Controller('users')
+@UseFilters(HttpExceptionFilter)
+@UseInterceptors(SuccessInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @UseFilters(HttpExceptionFilter)
   getAllUser() {
-    throw new HttpException('api error test', 401);
+    // throw new HttpException('api error test', 401);
     return 'asdf';
   }
 
