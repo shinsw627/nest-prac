@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   HttpException,
@@ -12,6 +13,7 @@ import {
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
+import { UserRequestDto } from './dtos/users.request.dto';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -33,9 +35,9 @@ export class UsersController {
     return 'a';
   }
 
-  @Post()
-  createUser() {
-    return 'asdf';
+  @Post('signup')
+  async signUp(@Body() body: UserRequestDto) {
+    return await this.usersService.signUp(body);
   }
 
   @Put(':id')
@@ -44,7 +46,7 @@ export class UsersController {
   }
 
   @Post()
-  loginUser() {
+  logIn() {
     return 'login';
   }
 }
