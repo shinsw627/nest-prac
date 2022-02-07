@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
   Param,
   ParseIntPipe,
   Post,
@@ -10,9 +9,11 @@ import {
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
+import { ReadOnlyCatDto } from './dtos/user.dto';
 import { UserRequestDto } from './dtos/users.request.dto';
 import { UsersService } from './users.service';
 
@@ -35,6 +36,16 @@ export class UsersController {
     return 'a';
   }
 
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '성공',
+    type: ReadOnlyCatDto,
+  })
+  @ApiOperation({ summary: '회원가입' })
   @Post('signup')
   async signUp(@Body() body: UserRequestDto) {
     return await this.usersService.signUp(body);
@@ -45,7 +56,8 @@ export class UsersController {
     return 'update';
   }
 
-  @Post()
+  @ApiOperation({ summary: '로그인' })
+  @Post('login')
   logIn() {
     return 'login';
   }
