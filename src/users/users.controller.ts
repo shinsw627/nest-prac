@@ -10,6 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { AuthService } from 'src/auth/auth.service';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { PositiveIntPipe } from 'src/common/pipes/positiveInt.pipe';
@@ -21,7 +22,10 @@ import { UsersService } from './users.service';
 @UseFilters(HttpExceptionFilter)
 @UseInterceptors(SuccessInterceptor)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Get()
   getAllUser() {
@@ -31,8 +35,6 @@ export class UsersController {
 
   @Get(':id')
   getOneUser(@Param('id', ParseIntPipe, PositiveIntPipe) param: number) {
-    console.log(param);
-    console.log(typeof param);
     return 'a';
   }
 
