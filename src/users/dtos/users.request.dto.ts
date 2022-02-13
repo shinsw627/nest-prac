@@ -1,4 +1,9 @@
-import { OmitType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { User } from '../users.schema';
 
-export class UserRequestDto extends OmitType(User, ['id']) {}
+export class UserRequestDto extends PickType(User, [
+  'email',
+  'password',
+  'name',
+  'phone',
+]) {}
