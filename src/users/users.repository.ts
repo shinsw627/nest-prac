@@ -22,4 +22,9 @@ export class UsersRepository {
   async create(userInfo: UserRequestDto): Promise<User> {
     return await this.userModel.create(userInfo);
   }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ email });
+    return user;
+  }
 }
