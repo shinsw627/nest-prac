@@ -15,5 +15,6 @@ import { JwtStrategy } from './jwt/jwt.strategy';
     forwardRef(() => UsersModule),
   ],
   providers: [AuthService, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
